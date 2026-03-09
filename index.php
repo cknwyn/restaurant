@@ -20,8 +20,9 @@ include "db_conn.php";
 </head>
 
 <body>
-  <nav class="navbar navbar-light justify-content-center fs-3 mb-5" style="background-color: #00ff5573;">
-    PHP Crud Application Potato Corner
+  <nav class="navbar navbar-light justify-content-center fs-3 mb-5" style="background-color: #c9b02573;">
+    <a class="navbar-brand" href="display_index.php"><i class="fa-solid fa-home fs-5"></i></a>
+    Potato Corner Menu CRUD Application
   </nav>
 
   <div class="container">
@@ -34,6 +35,44 @@ include "db_conn.php";
     </div>';
     }
     ?>
+
+    <a href="add-new-menu.php" class="btn btn-dark mb-3">Add New</a>
+
+    <!-- menu table and add new menu -->
+    <table class="table table-hover text-center">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Menu Name</th>
+          <th scope="col">Date Created</th>
+          <th scope="col">Date Updated</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        $sql = "SELECT * FROM menus WHERE DateDeleted IS NULL";
+        $result = mysqli_query($conn, $sql);
+        while ($row = mysqli_fetch_assoc($result)) {
+        ?>
+          <tr>
+            <td><?php echo $row["ID"] ?></td>
+            <td><?php echo $row["Name"] ?></td>
+            <td><?php echo $row["DateCreated"] ?></td>
+            <td><?php echo $row["DateUpdated"] ?></td>
+            <td>
+              <a href="edit.php?id=<?php echo $row["ID"] ?>&type=menus" class="link-dark"><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
+              <a href="delete.php?id=<?php echo $row["ID"] ?>&type=menus" class="link-dark"><i class="fa-solid fa-trash fs-5"></i></a>
+            </td>
+          </tr>
+        <?php
+        }
+        ?>
+      </tbody>
+    </table>
+
+    <br>
+    <!-- product table and add new products -->
     <a href="add-new.php" class="btn btn-dark mb-3">Add New</a>
 
     <table class="table table-hover text-center">
@@ -58,8 +97,8 @@ include "db_conn.php";
             <td><?php echo $row["price"] ?></td>
             <td><?php echo $row["ImagePath"] ?></td>
             <td>
-              <a href="edit.php?id=<?php echo $row["ID"] ?>" class="link-dark"><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
-              <a href="delete.php?id=<?php echo $row["ID"] ?>" class="link-dark"><i class="fa-solid fa-trash fs-5"></i></a>
+              <a href="edit.php?id=<?php echo $row["ID"] ?>&type=products" class="link-dark"><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
+              <a href="delete.php?id=<?php echo $row["ID"] ?>&type=products" class="link-dark"><i class="fa-solid fa-trash fs-5"></i></a>
             </td>
           </tr>
         <?php
