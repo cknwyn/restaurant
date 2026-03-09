@@ -51,8 +51,9 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body>
-  <nav class="navbar navbar-light justify-content-center fs-3 mb-5" style="background-color: #00ff5573;">
-    PHP Complete CRUD Application
+  <nav class="navbar justify-content-center text-white fs-3 mb-5" style="background-color: #04b31e;">
+    <a href="display_index.php"><img src="images/Logo-Stacked-Mascot.png" class="ms-3 me-3" width="125" height="50" alt="Potato Corner Logo"></a>
+    Potato Corner Menu CRUD Application
   </nav>
 
   <div class="container">

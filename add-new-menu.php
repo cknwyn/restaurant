@@ -1,10 +1,17 @@
 <?php
 include "db_conn.php";
    if (isset($_POST["submit"])) {
-    $name = $_POST['Name'];
-    $dateCreated = $_POST['DateCreated'];
-    $dateUpdated = $_POST['DateUpdated'];
-    $dateDeleted = $_POST['DateDeleted'];
+      $name = $_POST['Name'];
+      $dateCreated = $_POST['DateCreated'];
+   
+      if (empty($_POST['DateCreated'])) {
+        $dateCreated = date('Y-m-d H:i:s');
+      }
+
+      if (empty($_POST['Name'])) {
+        header("Location: add-new-menu.php?msg=Please enter the menu name");
+        return;
+      }
 
     $sql = "INSERT INTO `menus`(`ID`, `Name`, `DateCreated`, `DateUpdated`, `DateDeleted`) VALUES (NULL,'$name','$dateCreated', NULL, NULL)";
     $result = mysqli_query($conn, $sql);
@@ -33,9 +40,11 @@ include "db_conn.php";
 </head>
 
 <body>
-   <nav class="navbar navbar-light justify-content-center fs-3 mb-5" style="background-color: #00ff5573;">
-      PHP Complete CRUD Application
+   <nav class="navbar justify-content-center text-white fs-3 mb-5" style="background-color: #04b31e;">
+    <a href="display_index.php"><img src="images/Logo-Stacked-Mascot.png" class="ms-3 me-3" width="125" height="50" alt="Potato Corner Logo"></a>
+    Potato Corner Menu CRUD Application
    </nav>
+
 
    <div class="container">
       <?php

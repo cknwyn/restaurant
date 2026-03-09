@@ -20,8 +20,8 @@ include "db_conn.php";
 </head>
 
 <body>
-  <nav class="navbar navbar-light justify-content-center fs-3 mb-5" style="background-color: #c9b02573;">
-    <a class="navbar-brand" href="display_index.php"><i class="fa-solid fa-home fs-5"></i></a>
+  <nav class="navbar justify-content-center text-white fs-3 mb-5" style="background-color: #04b31e;">
+    <a href="display_index.php"><img src="images/Logo-Stacked-Mascot.png" class="ms-3 me-3" width="125" height="50" alt="Potato Corner Logo"></a>
     Potato Corner Menu CRUD Application
   </nav>
 
@@ -36,13 +36,13 @@ include "db_conn.php";
     }
     ?>
 
-    <a href="add-new-menu.php" class="btn btn-dark mb-3">Add New</a>
+    <a href="add-new-menu.php" class="btn btn-success mb-3">Add New Menu</a>
 
     <!-- menu table and add new menu -->
-    <table class="table table-hover text-center">
+    <table class="table table-striped table-hover text-center" style="background-color: #e7ece7;">
       <thead class="table-dark">
         <tr>
-          <th scope="col">ID</th>
+          <th scope="col">Menu ID</th>
           <th scope="col">Menu Name</th>
           <th scope="col">Date Created</th>
           <th scope="col">Date Updated</th>
@@ -61,7 +61,7 @@ include "db_conn.php";
             <td><?php echo $row["DateCreated"] ?></td>
             <td><?php echo $row["DateUpdated"] ?></td>
             <td>
-              <a href="edit.php?id=<?php echo $row["ID"] ?>&type=menus" class="link-dark"><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
+              <a href="edit-menu.php?id=<?php echo $row["ID"] ?>&type=menus" class="link-dark"><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
               <a href="delete.php?id=<?php echo $row["ID"] ?>&type=menus" class="link-dark"><i class="fa-solid fa-trash fs-5"></i></a>
             </td>
           </tr>
@@ -73,12 +73,12 @@ include "db_conn.php";
 
     <br>
     <!-- product table and add new products -->
-    <a href="add-new.php" class="btn btn-dark mb-3">Add New</a>
+    <a href="add-new.php" class="btn btn-success mb-3">Add New Item</a>
 
-    <table class="table table-hover text-center">
+    <table class="table table-striped table-hover text-center" style="background-color: #e7ece7;">
       <thead class="table-dark">
         <tr>
-          <th scope="col">ID</th>
+          <th scope="col">Product ID</th>
           <th scope="col">Product Name</th>
           <th scope="col">Price</th>
           <th scope="col">Image Path</th>
@@ -92,13 +92,52 @@ include "db_conn.php";
         while ($row = mysqli_fetch_assoc($result)) {
         ?>
           <tr>
-            <td><?php echo $row["ID"] ?></td>
-            <td><?php echo $row["name"] ?></td>
-            <td><?php echo $row["price"] ?></td>
-            <td><?php echo $row["ImagePath"] ?></td>
+            <td><?php echo isset($row["ID"]) ? $row["ID"] : ''; ?></td>
+            <td><?php echo isset($row["name"]) ? $row["name"] : ''; ?></td>
+            <td><?php echo isset($row["price"]) ? $row["price"] : ''; ?></td>
+            <td><?php echo isset($row["ImagePath"]) ? $row["ImagePath"] : ''; ?></td>
             <td>
               <a href="edit.php?id=<?php echo $row["ID"] ?>&type=products" class="link-dark"><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
               <a href="delete.php?id=<?php echo $row["ID"] ?>&type=products" class="link-dark"><i class="fa-solid fa-trash fs-5"></i></a>
+            </td>
+          </tr>
+        <?php
+        }
+        ?>
+      </tbody>
+    </table>
+
+    <br>
+    <a href="add-new-menuproducts.php" class="btn btn-success mb-3">Add New Menu Products</a>
+    
+    <table class="table table-striped table-hover text-center" style="background-color: #e7ece7;">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">Menu Name</th>
+          <th scope="col">Product Name</th>
+          <th scope="col">Price</th>
+          <th scope="col">Image Path</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        $sql = "SELECT mp.menuID, mp.productID, m.Name as menu_name, p.name as product_name, p.price, p.ImagePath 
+                FROM `menuproducts` mp 
+                JOIN `menus` m ON mp.menuID = m.ID AND m.DateDeleted IS NULL
+                JOIN `products` p ON mp.productID = p.ID 
+                ORDER BY m.Name, p.name";
+        $result = mysqli_query($conn, $sql);
+        while ($row = mysqli_fetch_assoc($result)) {
+        ?>
+          <tr>
+            <td><?php echo $row["menu_name"] ?></td>
+            <td><?php echo $row["product_name"] ?></td>
+            <td><?php echo $row["price"] ?></td>
+            <td><?php echo $row["ImagePath"] ?></td>
+            <td>
+              <a href="edit-menu-products.php?menuID=<?php echo $row["menuID"] ?>&productID=<?php echo $row["productID"] ?>" class="link-dark"><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
+              <a href="delete.php?menuID=<?php echo $row["menuID"] ?>&productID=<?php echo $row["productID"] ?>&type=menuproducts" class="link-dark"><i class="fa-solid fa-trash fs-5"></i></a>
             </td>
           </tr>
         <?php
